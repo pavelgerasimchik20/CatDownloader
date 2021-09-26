@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Cats</string>
+    <string name="download_cat">Download cat</string>
+    <string name="add_to_gallery">add to gallery</string>
+</resources>
