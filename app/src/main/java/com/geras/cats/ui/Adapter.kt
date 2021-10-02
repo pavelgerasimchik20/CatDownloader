@@ -1,24 +1,20 @@
 package com.geras.cats.ui
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.geras.cats.R
-import com.geras.cats.data.Cat
+import com.geras.cats.model.Cat
+import com.squareup.picasso.Picasso
 
-class Adapter(private val onClickAction: () -> Unit) : RecyclerView.Adapter<CatViewHolder>() {
+class Adapter(private val onClickAction: () -> Unit) :
+    RecyclerView.Adapter<Adapter.CatViewHolder>() {
 
     var catsImages = mutableListOf<Cat>()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
-    fun updateCats (cats : List<Cat>){
+    fun updateCats(cats: List<Cat>) {
         catsImages.clear()
         catsImages.addAll(cats)
         notifyDataSetChanged()
@@ -34,16 +30,20 @@ class Adapter(private val onClickAction: () -> Unit) : RecyclerView.Adapter<CatV
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
         val item = catsImages[position]
         holder.bind(item)
+
+        Picasso.get().load(catsImages[position].url).into(holder.ivIcon)
     }
 
     override fun getItemCount() = catsImages.size
-}
 
-class CatViewHolder(item: View): RecyclerView.ViewHolder(item) {
+    class CatViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
-    private val ivIcon: ImageView = item.findViewById(R.id.imageView)
+        val ivIcon: ImageView = item.findViewById(R.id.imageView)
 
-    fun bind(cat: Cat){
-        ivIcon.setImageResource(cat.icon)
+        fun bind(cat: Cat) {
+            ivIcon.setOnClickListener {}
+        }
     }
 }
+
+
