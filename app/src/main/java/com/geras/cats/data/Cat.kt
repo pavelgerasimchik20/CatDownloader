@@ -1,14 +1,15 @@
 package com.geras.cats.data
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.io.Serializable
 
 @Entity(tableName = "cats")
 data class Cat(
 
-    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "icon")
-    val icon: Int
+    @PrimaryKey
+    var id: String = "",
+    var url: String = "",
+    var width: Int = 0,
+    var height: Int = 0
 
-) : Serializable
+)

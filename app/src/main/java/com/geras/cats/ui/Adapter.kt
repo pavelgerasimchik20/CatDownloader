@@ -1,24 +1,19 @@
 package com.geras.cats.ui
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.geras.cats.R
 import com.geras.cats.data.Cat
 
 class Adapter(private val onClickAction: () -> Unit) : RecyclerView.Adapter<CatViewHolder>() {
 
     var catsImages = mutableListOf<Cat>()
-        @SuppressLint("NotifyDataSetChanged")
-        set(value) {
-            field = value
-            notifyDataSetChanged()
-        }
 
-    fun updateCats (cats : List<Cat>){
+    fun updateCats(cats: List<Cat>) {
         catsImages.clear()
         catsImages.addAll(cats)
         notifyDataSetChanged()
@@ -39,11 +34,14 @@ class Adapter(private val onClickAction: () -> Unit) : RecyclerView.Adapter<CatV
     override fun getItemCount() = catsImages.size
 }
 
-class CatViewHolder(item: View): RecyclerView.ViewHolder(item) {
+class CatViewHolder(item: View) : RecyclerView.ViewHolder(item) {
 
     private val ivIcon: ImageView = item.findViewById(R.id.imageView)
 
-    fun bind(cat: Cat){
-        ivIcon.setImageResource(cat.icon)
+    fun bind(cat: Cat) {
+        ivIcon.load(cat.url) {
+            crossfade(true)
+            placeholder(R.drawable.place_holder)
+        }
     }
 }
