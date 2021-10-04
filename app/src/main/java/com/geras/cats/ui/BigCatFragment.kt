@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import coil.load
 import com.geras.cats.data.Cat
 import com.geras.cats.databinding.FragmentBigCatBinding
 
@@ -24,6 +25,8 @@ class BigCatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val url = arguments?.getString(CAT_URL) ?: ""
+        binding.fullCatScreen.load(url)
     }
 
     companion object {

@@ -14,18 +14,10 @@ class CatFragment : Fragment() {
 
     private var _binding: FragmentCatBinding? = null
     private val binding get() = _binding!!
-    private val adapter = Adapter { openNewFragment() }
-
-    private fun openNewFragment() {
-        val activity = activity as? MainActivity
-        /*activity?.openBigCatFragment()
-    */
-    }
 
     private val viewModel: CatViewModel by viewModels {
         ViewModelFactory((requireActivity().application as CatApplication).repository)
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,6 +30,10 @@ class CatFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val adapter = Adapter {
+            val activity = activity as? MainActivity
+            activity?.openBigCatFragment(it)
+        }
         binding.recyclerview.layoutManager = GridLayoutManager(requireContext(), 3)
         binding.recyclerview.adapter = adapter
 

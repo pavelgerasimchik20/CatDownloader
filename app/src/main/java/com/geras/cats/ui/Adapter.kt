@@ -9,7 +9,8 @@ import coil.load
 import com.geras.cats.R
 import com.geras.cats.data.Cat
 
-class Adapter(private val onClickAction: () -> Unit) : RecyclerView.Adapter<CatViewHolder>() {
+class Adapter(private val onItemClickAction: (cat: Cat) -> Unit) :
+    RecyclerView.Adapter<CatViewHolder>() {
 
     var catsImages = mutableListOf<Cat>()
 
@@ -22,8 +23,9 @@ class Adapter(private val onClickAction: () -> Unit) : RecyclerView.Adapter<CatV
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val item = inflater.inflate(R.layout.cat_item, parent, false)
-        item.setOnClickListener { onClickAction.invoke() }
-        return CatViewHolder(item)
+        val holder = CatViewHolder(item, onItemClickAction)
+        /* item.setOnClickListener { onItemClickAction.invoke(catsImages[holder.adapterPosition]) }*/
+        return holder
     }
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
@@ -34,7 +36,8 @@ class Adapter(private val onClickAction: () -> Unit) : RecyclerView.Adapter<CatV
     override fun getItemCount() = catsImages.size
 }
 
-class CatViewHolder(item: View) : RecyclerView.ViewHolder(item) {
+class CatViewHolder(item: View, private val onItemClickAction: (cat: Cat) -> Unit) :
+    RecyclerView.ViewHolder(item) {
 
     private val ivIcon: ImageView = item.findViewById(R.id.imageView)
 
@@ -42,6 +45,9 @@ class CatViewHolder(item: View) : RecyclerView.ViewHolder(item) {
         ivIcon.load(cat.url) {
             crossfade(true)
             placeholder(R.drawable.place_holder)
+        }
+        ivIcon.setOnClickListener {
+            onItemClickAction.invoke(cat)
         }
     }
 }

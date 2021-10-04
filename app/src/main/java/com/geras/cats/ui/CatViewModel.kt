@@ -20,7 +20,7 @@ class CatViewModel(private val repository: Repository) : ViewModel() {
         }
     }
 
-    fun addCat(cat: Cat) {
+    fun insert(cat: Cat) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.insert(cat)
         }

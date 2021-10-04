@@ -5,6 +5,6 @@ import retrofit2.Call
 import retrofit2.http.GET
 
 interface TheCatApiService {
-    @GET("images/search?limit=25")
+    @GET("images/search?limit=19")
     fun getCats(): Call<List<Cat>>
 }
