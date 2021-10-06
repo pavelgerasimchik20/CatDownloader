@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/pavel/AndroidStudioProjects/Cats/app/src/main/res/drawable/ic_baseline_add_photo_alternate_24.xml" value="0.2755208333333333" />
         <entry key="..\:/Users/pavel/AndroidStudioProjects/Cats/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/pavel/AndroidStudioProjects/Cats/app/src/main/res/layout/cat_fragment.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/pavel/AndroidStudioProjects/Cats/app/src/main/res/layout/cat_item.xml" value="0.259375" />
