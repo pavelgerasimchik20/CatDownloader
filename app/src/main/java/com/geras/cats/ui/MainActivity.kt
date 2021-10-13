@@ -25,10 +25,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private fun commitTransaction(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
             .setCustomAnimations(
-                R.animator.flip_in_right,
-                R.animator.flip_out_right,
-                R.animator.flip_in_left,
-                R.animator.flip_out_left
+                R.animator.reversal_in_right,
+                R.animator.reversal_out_right,
+                R.animator.reversal_in_left,
+                R.animator.reversal_out_left
             )
         transaction.replace(R.id.container, fragment)
         transaction.addToBackStack(fragment.javaClass.name)

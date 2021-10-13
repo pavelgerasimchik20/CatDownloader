@@ -1,25 +1,28 @@
 package com.geras.cats.ui
 
-import android.app.DownloadManager
-import android.content.Context
-import android.net.Uri
+import android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import coil.load
+import com.geras.cats.CatApplication
 import com.geras.cats.data.Cat
 import com.geras.cats.databinding.FragmentBigCatBinding
-import java.io.File
 
 
 class BigCatFragment : Fragment() {
 
     private var _binding: FragmentBigCatBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: BigCatFragmentViewModel by viewModels {
+        ViewModelFactory(((activity as MainActivity).application as CatApplication).repository)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,39 +39,36 @@ class BigCatFragment : Fragment() {
         val id = arguments?.getString(CAT_ID) ?: ""
         binding.fullCatScreen.load(url)
         binding.addToGalleryBtn.setOnClickListener {
-            downloadImageToGallery(id, url)
+            if (url != null) {
+                if (isWritePermissionGranted()) {
+                    viewModel.downloadImage(url, requireContext())
+                } else {
+                    askPermissions()
+                }
+            }
         }
     }
 
-    private fun downloadImageToGallery(filename: String, downloadUrlOfImage: String) {
-        try {
-            val downloadManager by lazy {
-                context?.getSystemService(Context.DOWNLOAD_SERVICE)
-                        as DownloadManager
-            }
-            val downloadUri = Uri.parse(downloadUrlOfImage)
-            val request = DownloadManager.Request(downloadUri)
-            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI or DownloadManager.Request.NETWORK_MOBILE)
-                .setAllowedOverRoaming(false)
-                .setTitle(filename)
-                .setMimeType("image/jpeg")
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                .setVisibleInDownloadsUi(false)
-                .setDestinationInExternalPublicDir(
-                    Environment.DIRECTORY_PICTURES,
-                    File.separator + filename + ".jpg"
-                )
-            downloadManager.enqueue(request)
-            Toast.makeText(context, "save successful", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Toast.makeText(context, "something went wrong", Toast.LENGTH_SHORT).show()
-        }
+    private fun isWritePermissionGranted(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireActivity(),
+            WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun askPermissions() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            arrayOf(WRITE_EXTERNAL_STORAGE),
+            REQUEST_CODE
+        )
     }
 
     companion object {
 
         private const val CAT_URL = "CAT_URL"
         private const val CAT_ID = "CAT_ID"
+        private const val REQUEST_CODE = 100
 
         fun newInstance(cat: Cat): BigCatFragment {
             val fragment = BigCatFragment()

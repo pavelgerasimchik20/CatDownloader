@@ -40,6 +40,10 @@ class ViewModelFactory(private val repository: Repository) : ViewModelProvider.F
             @Suppress("UNCHECKED_CAST")
             return CatViewModel(repository) as T
         }
+        if (modelClass.isAssignableFrom(BigCatFragmentViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return BigCatFragmentViewModel() as T
+        }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 
