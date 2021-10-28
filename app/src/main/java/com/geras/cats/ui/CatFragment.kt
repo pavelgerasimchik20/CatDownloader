@@ -31,6 +31,7 @@ class CatFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val adapter = Adapter {
+            // Лучше callback оформить в виде отдельной функции.
             val activity = activity as? MainActivity
             activity?.openBigCatFragment(it)
         }

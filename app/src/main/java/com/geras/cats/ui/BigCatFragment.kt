@@ -73,6 +73,7 @@ class BigCatFragment : Fragment() {
         fun newInstance(cat: Cat): BigCatFragment {
             val fragment = BigCatFragment()
             val args = Bundle()
+            // Можно положить в bundle Parcelable кота.
             args.putString(CAT_URL, cat.url)
             args.putString(CAT_ID, cat.id)
             fragment.arguments = args

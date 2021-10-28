@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="4dp"
     android:background="#E30C62">
+<!-- ConstraintLayout это слишком для такого макета. -->
 
     <ImageView
         android:id="@+id/imageView"

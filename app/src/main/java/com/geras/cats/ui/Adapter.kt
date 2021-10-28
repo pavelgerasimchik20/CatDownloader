@@ -29,6 +29,8 @@ class Adapter(private val onItemClickAction: (cat: Cat) -> Unit) :
     }
 
     override fun onBindViewHolder(holder: CatViewHolder, position: Int) {
+        // Позиция из параметра не финальная. Это может привести к проблемам.
+        // Лучше использовать holder.adapterPosition или holder.bindingAdapterPosition в recycler v1.2
         val item = catsImages[position]
         holder.bind(item)
     }
@@ -39,6 +41,7 @@ class Adapter(private val onItemClickAction: (cat: Cat) -> Unit) :
 class CatViewHolder(item: View, private val onItemClickAction: (cat: Cat) -> Unit) :
     RecyclerView.ViewHolder(item) {
 
+    // Для ViewHolder тоже можно использовать ViewBinding
     private val ivIcon: ImageView = item.findViewById(R.id.imageView)
 
     fun bind(cat: Cat) {
@@ -46,6 +49,8 @@ class CatViewHolder(item: View, private val onItemClickAction: (cat: Cat) -> Uni
             crossfade(true)
             placeholder(R.drawable.place_holder)
         }
+        // Нажатие нужно обрабатывать в onCreateViewHolder. Если обрабатывать сдесь, при каждом
+        // onBindViewHolder будут создаваться объекты лямбды листенера.
         ivIcon.setOnClickListener {
             onItemClickAction.invoke(cat)
         }
